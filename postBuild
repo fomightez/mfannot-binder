@@ -16,6 +16,9 @@ git clone https://github.com/BFL-lab/PirModels.git; mv PirModels /root/
 # Install flip
 git clone https://github.com/BFL-lab/flip.git; cd flip/src/; gcc -o /usr/local/bin/flip flip.c;
 
+# go back up in hierarchy after `cd`
+cd ../..
+
 # Install umac
 git clone https://github.com/BFL-lab/umac.git; cp umac/umac /usr/local/bin/
 
