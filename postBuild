@@ -8,6 +8,7 @@ wget -L http://rna.igmors.u-psud.fr/download/Erpin/erpin5.5.4.serv.tar.gz; tar x
 
 # Install PirObject
 git clone https://github.com/prioux/PirObject.git; cp PirObject/lib/PirObject.pm /etc/perl/;
+# curl -o PirObject.tar.gz -L https://github.com/prioux/PirObject/archive/master.tar.gz;tar xzvf PirObject.tar.gz; cp PirObject-master/PirObject/lib/PirObject.pm /etc/perl/;
 
 # Install all PirModels
 git clone https://github.com/BFL-lab/PirModels.git; mv PirModels /root/
@@ -37,7 +38,7 @@ git clone https://github.com/BFL-lab/mfannot.git; cp mfannot/mfannot /usr/local/
 git clone https://github.com/BFL-lab/MFannot_data.git
 
 #Install BLAST matrix
-mkdir BLASTMAT; cd BLASTMAT; wget  ftp://ftp.ncbi.nlm.nih.gov/blast/matrices/* ; cd ..
+#mkdir BLASTMAT; cd BLASTMAT; wget  ftp://ftp.ncbi.nlm.nih.gov/blast/matrices/* ; cd ..
 
 #Copy RNAfinder config file
 cp ~/.RNAfinder.cfg /
