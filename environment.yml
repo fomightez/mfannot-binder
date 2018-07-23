@@ -4,10 +4,7 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - scipy
-  - numpy
-  - pandas-datareader>=0.5.0
-  - statsmodels
+  - automake
   - regex
   - perl=5.22.0.1
   - perl-bioperl
@@ -47,3 +44,5 @@ dependencies:
   - exonerate
   - hmmer 
   - muscle
+  - emboss
+  - tbl2asn
