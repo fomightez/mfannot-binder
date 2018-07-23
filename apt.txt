@@ -1,1 +1,13 @@
-ghostscript
+git
+gcc-multilib
+build-essential
+apt-utils
+expat
+libexpat-dev
+wget
+libglib2.0-dev
+automake
+autotools-dev
+ncbi-blast+
+hmmer
+emboss
