@@ -29,18 +29,18 @@ RUN apt-get update && apt-get install -y  git \
                        expat \
                        libexpat-dev \
                        cpanminus \
-                       wget\
-                       libglib2.0-dev\
-                       automake\
+                       wget \
+                       libglib2.0-dev \
+                       automake \
                        autotools-dev \
-
-
+# <---Put these throughout instead of spaces because got warning about continuation lines and https://github.com/moby/moby/pull/34333 suggest comments shouldn't count
+#
 ############################
 # Install perl dependency  #
 ############################
 && cpanm LWP::UserAgent.pm \
-&& cpanm Bio::AlignIO && \
-
+&& cpanm Bio::AlignIO
+#
 ############################
 # Install external progam  #
 ############################
@@ -49,63 +49,65 @@ WORKDIR git_repositories
 
 # Install Blast
 RUN apt-get install -y ncbi-blast+ \
-
+#
 # Install HMMER
 && apt-get install -y hmmer
-
+#
 # Install Exonerate
-RUN git clone https://github.com/nathanweeks/exonerate.git; WORKDIR exonerate; git checkout v2.4.0; ./configure; make; make check;autoreconf -f -i; make install
+RUN git clone https://github.com/nathanweeks/exonerate.git
+WORKDIR exonerate
+RUN git checkout v2.4.0; ./configure; make; make check;autoreconf -f -i; make install
 WORKDIR git_repositories
 
 # Install Muscle
 RUN wget -L http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux32.tar.gz; tar xzvf muscle3.8.31_i86linux32.tar.gz;mv muscle3.8.31_i86linux32 /usr/local/bin/muscle; rm -rf /muscle3.8.31_i86linux32.tar.gz \
-
+#
 # Install EMBOSS
 && apt-get install -y emboss \
-
+#
 # Install Erpin
 && wget -L http://rna.igmors.u-psud.fr/download/Erpin/erpin5.5.4.serv.tar.gz; tar xzvf erpin5.5.4.serv.tar.gz; cp erpin5.5.4.serv/bin/erpin /usr/local/bin/ \
-
+#
 # Install tbl2asn
 && wget ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/tbl2asn/linux.tbl2asn.gz; gunzip linux.tbl2asn.gz; chmod 755 linux.tbl2asn; cp linux.tbl2asn /usr/local/bin/tbl2asn \
-
+#
 ############################
 # Install internal progam #
 ############################
-
+#
 # Install PirObject
 && git clone https://github.com/prioux/PirObject.git; cp PirObject/lib/PirObject.pm /etc/perl/; \
-
+#
 # Install all PirModels
 && git clone https://github.com/BFL-lab/PirModels.git; mv PirModels /root/ \
-
+#
 # Install flip
 && git clone https://github.com/BFL-lab/flip.git; cd flip/src/; gcc -o /usr/local/bin/flip flip.c; \
-
+#
 # Install umac
 && git clone https://github.com/BFL-lab/umac.git; cp umac/umac /usr/local/bin/ \
-
+#
 # Install HMMsearchWC
 && git clone https://github.com/BFL-lab/HMMsearchWC.git; cp HMMsearchWC/HMMsearchCombiner /usr/local/bin/; cp HMMsearchWC/HMMsearchWrapper /usr/local/bin/ \
-
+#
 # Install RNAfinder
 && git clone https://github.com/BFL-lab/RNAfinder.git; cp RNAfinder/RNAfinder /usr/local/bin/; cp RNAfinder/DOT_RNAfinder.cfg ~/.RNAfinder.cfg \
-
+#
 # Install mf2sqn
 && it clone https://github.com/BFL-lab/mf2sqn.git; cp mf2sqn/mf2sqn /usr/local/bin/; cp mf2sqn/qualifs.pl /usr/share/perl5/ \
-
+#
 # Install grab-fasta
 && git clone https://github.com/BFL-lab/grab-fasta.git; cp grab-fasta/grab-fasta /usr/local/bin/;cp grab-fasta/grab-seq /usr/local/bin/ \
-
+#
 # Install MFannot
 && git clone https://github.com/BFL-lab/mfannot.git; cp mfannot/mfannot /usr/local/bin/;cp -r mfannot/examples / \
-
+#
 ################
 # Install data #
 ################
 # Install data
 && git clone https://github.com/BFL-lab/MFannot_data.git
-
+#
 #Install BLAST matrix
 WORKDIR BLASTMAT
 WORKDIR git_repositories
@@ -116,7 +118,7 @@ WORKDIR git_repositories
 
 #Copy RNAfinder config file
 RUN cp ~/.RNAfinder.cfg / \
-
+#
 #mv PirModels 
 && mv /root/PirModels / 
 
