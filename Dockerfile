@@ -132,7 +132,7 @@ WORKDIR git_repositories
 RUN RNAfinder/DOT_RNAfinder.cfg ../. \
 #
 #mv PirModels 
-&& mv /root/PirModels / 
+##&& mv /root/PirModels / 
 #
 ####################
 # Set ENV variable #
@@ -146,7 +146,7 @@ ENV MFANNOT_MOD_PATH /MFannot_data/models/
 ENV BLASTMAT /BLASTMAT/
 ENV EGC /MFannot_data/EGC/
 ENV ERPIN_MOD_PATH /MFannot_data/models/Erpin_models/
-ENV PIR_DATAMODEL_PATH /PirModels
+#ENV PIR_DATAMODEL_PATH /PirModels
 #
 #
 # Putting this at end because usally block with it above is at end but I wanted to copy repo earlier so could deal with matrices files
