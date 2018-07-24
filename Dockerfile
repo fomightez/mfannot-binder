@@ -77,7 +77,7 @@ RUN wget -L http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux32
 ############################
 #
 # Install PirObject
-&& git clone https://github.com/prioux/PirObject.git; cp PirObject/lib/PirObject.pm /etc/perl/; \
+&& git clone https://github.com/prioux/PirObject.git; cp PirObject/lib/PirObject.pm /etc/perl/ \
 #
 # Install all PirModels
 && git clone https://github.com/BFL-lab/PirModels.git; mv PirModels /root/ \
