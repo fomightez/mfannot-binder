@@ -9,7 +9,14 @@ FROM rocker/binder:3.4.2
 # https://github.com/rocker-org/binder/blob/master/3.4.2/Dockerfile
 # into something that works to install the perl modules Circos needs
 
-
+# Copy repo into ${HOME}, make user own $HOME
+USER root
+COPY . ${HOME}
+RUN chown -R ${NB_USER} ${HOME}
+USER ${NB_USER}
+# copied the repo now because I'll need to eventually referecne BLAST matrices files 
+# during install
+# Return to root for installation until end of it.
 
 USER root
 
@@ -76,10 +83,13 @@ RUN wget -L http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux32
 && git clone https://github.com/BFL-lab/PirModels.git; mv PirModels /root/ \
 #
 # Install flip
-&& git clone https://github.com/BFL-lab/flip.git; cd flip/src/; gcc -o /usr/local/bin/flip flip.c \
+&& git clone https://github.com/BFL-lab/flip.git
+WORKDIR flip/src/
+RUN gcc -o /usr/local/bin/flip flip.c
 #
+WORKDIR git_repositories
 # Install umac
-&& git clone https://github.com/BFL-lab/umac.git; cp umac/umac /usr/local/bin/ \
+RUN git clone https://github.com/BFL-lab/umac.git; cp umac/umac /usr/local/bin/ \
 #
 # Install HMMsearchWC
 && git clone https://github.com/BFL-lab/HMMsearchWC.git; cp HMMsearchWC/HMMsearchCombiner /usr/local/bin/; cp HMMsearchWC/HMMsearchWrapper /usr/local/bin/ \
@@ -88,8 +98,5 @@ RUN wget -L http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux32
 && git clone https://github.com/BFL-lab/RNAfinder.git;
 
 
-# Copy repo into ${HOME}, make user own $HOME
-#USER root
-COPY . ${HOME}
-RUN chown -R ${NB_USER} ${HOME}
+# Putting this at end because usally block with it above is at end but I wanted to copy repo earlier so could deal with matrices files
 USER ${NB_USER}
