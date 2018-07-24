@@ -9,14 +9,7 @@ FROM rocker/binder:3.4.2
 # https://github.com/rocker-org/binder/blob/master/3.4.2/Dockerfile
 # into something that works to install the perl modules Circos needs
 
-# Copy repo into ${HOME}, make user own $HOME
-USER root
-COPY . ${HOME}
-RUN chown -R ${NB_USER} ${HOME}
-USER ${NB_USER}
-# copied the repo now because I'll need to eventually referecne BLAST matrices files 
-# during install
-# Return to root for installation until end of it.
+
 
 USER root
 
@@ -93,3 +86,10 @@ RUN wget -L http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux32
 #
 # Install RNAfinder
 && git clone https://github.com/BFL-lab/RNAfinder.git;
+
+
+# Copy repo into ${HOME}, make user own $HOME
+#USER root
+COPY . ${HOME}
+RUN chown -R ${NB_USER} ${HOME}
+USER ${NB_USER}
