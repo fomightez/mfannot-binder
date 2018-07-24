@@ -14,12 +14,14 @@ USER root
 COPY . ${HOME}
 RUN chown -R ${NB_USER} ${HOME}
 USER ${NB_USER}
+# copied the repo now because I'll need to eventually referecne BLAST matrices files 
+# during install
+# Return to root for installation until end of it.
 
-
-RUN apt-get update
+USER root
 
 # Install requested tools
-RUN apt-get install -y git \
+RUN apt-get update && apt-get install -y  git \
                        gcc-multilib \
                        build-essential \
                        apt-utils \
@@ -133,5 +135,6 @@ ENV ERPIN_MOD_PATH /MFannot_data/models/Erpin_models/
 ENV PIR_DATAMODEL_PATH /PirModels
 
 
-
+# Putting this at end because usally block with it above is at end but I wanted to copy repo earlier so could deal with matrices files
+USER ${NB_USER}
 
