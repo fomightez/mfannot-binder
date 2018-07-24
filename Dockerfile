@@ -70,7 +70,9 @@ RUN wget -L http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux32
 #
 # Install tbl2asn
 #&& wget ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/tbl2asn/linux.tbl2asn.gz; gunzip linux.tbl2asn.gz; chmod 755 linux.tbl2asn; cp linux.tbl2asn /usr/local/bin/tbl2asn \
-# WILL NEED TO HANDLE tbl2asn DIFFERENTLY TOO BECAUSE CANNOT GET VIA BINDER
+# WILL NEED TO HANDLE tbl2asn DIFFERENTLY TOO BECAUSE CANNOT GET VIA BINDER, SUGESTED AFTER ADDING TO REPO:
+# COPY linux.tbl2asn.gz # NEVERMIND COPY !! HANDLED UP TOP!!!
+# RUN gunzip linux.tbl2asn.gz; chmod 755 linux.tbl2asn; cp linux.tbl2asn /usr/local/bin/tbl2asn \
 #
 ############################
 # Install internal progam #
@@ -97,49 +99,7 @@ RUN git clone https://github.com/BFL-lab/umac.git; cp umac/umac /usr/local/bin/ 
 # Install RNAfinder
 && git clone https://github.com/BFL-lab/RNAfinder.git; cp RNAfinder/RNAfinder /usr/local/bin/; cp RNAfinder/DOT_RNAfinder.cfg ~/.RNAfinder.cfg \
 #
-# Install mf2sqn
-&& it clone https://github.com/BFL-lab/mf2sqn.git; cp mf2sqn/mf2sqn /usr/local/bin/; cp mf2sqn/qualifs.pl /usr/share/perl5/ \
+
 #
-# Install grab-fasta
-&& git clone https://github.com/BFL-lab/grab-fasta.git; cp grab-fasta/grab-fasta /usr/local/bin/;cp grab-fasta/grab-seq /usr/local/bin/ \
-#
-# Install MFannot
-&& git clone https://github.com/BFL-lab/mfannot.git; cp mfannot/mfannot /usr/local/bin/;cp -r mfannot/examples / \
-#
-################
-# Install data #
-################
-# Install data
-&& git clone https://github.com/BFL-lab/MFannot_data.git
-#
-#Install BLAST matrix
-WORKDIR BLASTMAT
-WORKDIR git_repositories
-# RUN mkdir BLASTMAT; cd BLASTMAT; wget  ftp://ftp.ncbi.nlm.nih.gov/blast/matrices/* ; cd ..
-# THis will need to be done with COPY I think once, I put matrices files in repo
-
-WORKDIR git_repositories
-
-#Copy RNAfinder config file
-RUN cp ~/.RNAfinder.cfg / \
-#
-#mv PirModels 
-&& mv /root/PirModels / 
-
-####################
-# Set ENV variable #
-####################
-
-ENV RNAFINDER_CFG_PATH /
-ENV MF2SQN_LIB /mf2sqn/lib/
-ENV MFANNOT_LIB_PATH /MFannot_data/protein_collections/
-ENV MFANNOT_EXT_CFG_PATH /MFannot_data/config
-ENV MFANNOT_MOD_PATH /MFannot_data/models/
-ENV BLASTMAT /BLASTMAT/
-ENV EGC /MFannot_data/EGC/
-ENV ERPIN_MOD_PATH /MFannot_data/models/Erpin_models/
-ENV PIR_DATAMODEL_PATH /PirModels
-
-
 # Putting this at end because usally block with it above is at end but I wanted to copy repo earlier so could deal with matrices files
 USER ${NB_USER}
