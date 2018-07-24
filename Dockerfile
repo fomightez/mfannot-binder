@@ -69,7 +69,8 @@ RUN wget -L http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux32
 && wget -L http://rna.igmors.u-psud.fr/download/Erpin/erpin5.5.4.serv.tar.gz; tar xzvf erpin5.5.4.serv.tar.gz; cp erpin5.5.4.serv/bin/erpin /usr/local/bin/ \
 #
 # Install tbl2asn
-&& wget ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/tbl2asn/linux.tbl2asn.gz; gunzip linux.tbl2asn.gz; chmod 755 linux.tbl2asn; cp linux.tbl2asn /usr/local/bin/tbl2asn \
+#&& wget ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/tbl2asn/linux.tbl2asn.gz; gunzip linux.tbl2asn.gz; chmod 755 linux.tbl2asn; cp linux.tbl2asn /usr/local/bin/tbl2asn \
+# WILL NEED TO HANDLE tbl2asn DIFFERENTLY TOO BECAUSE CANNOT GET VIA BINDER
 #
 ############################
 # Install internal progam #
@@ -77,3 +78,6 @@ RUN wget -L http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux32
 #
 # Install PirObject
 && git clone https://github.com/prioux/PirObject.git; cp PirObject/lib/PirObject.pm /etc/perl/; \
+#
+# Install all PirModels
+&& git clone https://github.com/BFL-lab/PirModels.git; mv PirModels /root/ \
