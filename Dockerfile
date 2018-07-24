@@ -62,3 +62,8 @@ WORKDIR git_repositories
 # Install Muscle
 RUN wget -L http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux32.tar.gz; tar xzvf muscle3.8.31_i86linux32.tar.gz;mv muscle3.8.31_i86linux32 /usr/local/bin/muscle; rm -rf /muscle3.8.31_i86linux32.tar.gz \
 #
+# Install EMBOSS
+&& apt-get install -y emboss \
+#
+# Install Erpin
+&& wget -L http://rna.igmors.u-psud.fr/download/Erpin/erpin5.5.4.serv.tar.gz; tar xzvf erpin5.5.4.serv.tar.gz; cp erpin5.5.4.serv/bin/erpin /usr/local/bin/ \
