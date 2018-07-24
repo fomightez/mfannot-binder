@@ -33,7 +33,6 @@ RUN apt-get update && apt-get install -y  git \
                        libglib2.0-dev \
                        autotools-dev \
                        automake \
-                       aclocal \
 # <---Put these throughout instead of spaces because got warning about continuation lines and https://github.com/moby/moby/pull/34333 suggest comments shouldn't count
 #
 ############################
