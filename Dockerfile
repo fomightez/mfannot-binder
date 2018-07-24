@@ -46,7 +46,7 @@ RUN apt-get install -y git \
 WORKDIR git_repositories
 
 # Install Blast
-&& apt-get install -y ncbi-blast+ \
+RUN apt-get install -y ncbi-blast+ \
 
 # Install HMMER
 && apt-get install -y hmmer
