@@ -129,7 +129,7 @@ WORKDIR git_repositories
 #
 #Copy RNAfinder config file
 #RUN cp ~/.RNAfinder.cfg / \
-RUN RNAfinder/DOT_RNAfinder.cfg ../. \
+##RUN RNAfinder/DOT_RNAfinder.cfg ../. \
 #
 #mv PirModels 
 ##&& mv /root/PirModels / 
