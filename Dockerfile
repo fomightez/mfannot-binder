@@ -107,9 +107,9 @@ RUN git clone https://github.com/BFL-lab/umac.git; cp umac/umac /usr/local/bin/ 
 && git clone https://github.com/BFL-lab/grab-fasta.git; cp grab-fasta/grab-fasta /usr/local/bin/;cp grab-fasta/grab-seq /usr/local/bin/ \
 #
 # Install MFannot
-&& git clone https://github.com/BFL-lab/mfannot.git; cp mfannot/mfannot /usr/local/bin/; \
-# cp -r mfannot/examples / \
-#cp -r mfannot/examples ../. \
+&& git clone https://github.com/BFL-lab/mfannot.git; cp mfannot/mfannot /usr/local/bin/ \
+#&& cp -r mfannot/examples / \
+#&& cp -r mfannot/examples ../. \
 #
 ################
 # Install data #
