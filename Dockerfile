@@ -3,155 +3,107 @@ FROM rocker/binder:3.4.2
 # Note `## If extending this image, remember to switch back to USER root to apt-get`
 # at the end of https://github.com/rocker-org/binder/blob/master/3.4.2/Dockerfile
 
+USER root
 
 # Trying to merge the Dockerfiles from: 
-# https://github.com/binder-examples/dockerfile-rstudio/blob/master/Dockerfile
-# https://github.com/rocker-org/binder/blob/master/3.4.2/Dockerfile
-# into something that works to install all the items that MFannot needs
+# https://github.com/alexcoppe/bio-dockers/blob/75906f53d87399d80a9349148559ecb9511eba79/circos/Dockerfile
+#https://github.com/rocker-org/geospatial/blob/master/3.4.2/Dockerfile 
+# https://hub.docker.com/r/genomicpariscentre/bioperl/~/dockerfile/ (found by searching `ubuntu cpan perl gd docker`)
+# rocker/binder:3.4.2
+# into something that works to install the perl modules Circos needs
+
+# Trying to add circos, and the important dependencies
+ENV version 0.69-6
+
+#ADD http://circos.ca/distribution/circos-${version}.tgz /tmp/
+RUN wget "http://circos.ca/distribution/circos-0.69-6.tgz" \
+  && tar xzvf circos-0.69-6.tgz \
+  && rm -rf circos-0.69-6.tgz
+
+
+
+# Install compiler and perl stuff
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+     gcc-multilib \
+     apt-utils \
+     perl \
+     expat \
+     libexpat-dev \
+     cpanminus \
+     libarchive-zip-perl \
+     libdbd-mysql \
+     libdbd-mysql-perl \
+     libdbd-pgsql \
+     libgd-gd2-perl \
+     libgd2-noxpm-dev \
+     libpixman-1-0 \
+     libpixman-1-dev \
+     graphviz \
+     libxml-parser-perl \
+     libsoap-lite-perl \
+     libxml-libxml-perl \
+     libxml-dom-xpath-perl \
+     libxml-libxml-simple-perl \
+     libxml-dom-perl
+
+
+
+# Install perl modules 
+RUN cpanm CPAN::Meta \
+ readline \ 
+ Term::ReadKey \
+ YAML \
+ Digest::SHA \
+ Module::Build \
+ ExtUtils::MakeMaker \
+ Test::More \
+ Data::Stag \
+ Config::Simple \
+ Statistics::Lite \
+ Statistics::Descriptive \
+ GD \
+ GD::Graph \
+ GD::Graph::smoothlines \
+ Test::Most \
+ Algorithm::Munkres \
+ Array::Compare Clone \
+ #PostScript::TextBlock \
+ SVG::Graph \
+ Set::Scalar \
+ Sort::Naturally \
+ Graph \
+ GraphViz \
+ HTML::TableExtract \
+ #Convert::Binary::C \
+ Math::Random \
+ Error \
+ Spreadsheet::ParseExcel \
+ XML::Parser::PerlSAX \
+ XML::SAX::Writer \
+ XML::Twig XML::Writer \
+ Math::Bezier \
+ Math::Round \
+ #Readonly::Tiny \
+ Readonly \
+ Config::General \
+ Params::Validate \
+ Font::TTF::Font \
+ Regexp::Common \
+ Math::VecStat \
+ Text::Format \
+ SVG \
+ Clone \ 
+ List::MoreUtils \
+ Number::Format \
+ Statistics::Basic \
+ Set::IntSpan \
+ -f Try::Tiny
 
 # Copy repo into ${HOME}, make user own $HOME
 USER root
 COPY . ${HOME}
 RUN chown -R ${NB_USER} ${HOME}
 USER ${NB_USER}
-# copied the repo now because I'll need to eventually reference BLAST matrices files 
-# during install
-# Return to root for installation until end of it.
 
-USER root
 
-# Install requested tools
-RUN apt-get update && apt-get install -y  git \
-                       gcc-multilib \
-                       build-essential \
-                       apt-utils \
-                       perl \
-                       expat \
-                       libexpat-dev \
-                       cpanminus \
-                       wget \
-                       libglib2.0-dev \
-                       autotools-dev \
-                       automake
-# <---Put these throughout instead of spaces because got warning about continuation lines and https://github.com/moby/moby/pull/34333 suggest comments shouldn't count
-#
-############################
-# Install perl dependency  #
-############################
-#&& cpanm LWP::UserAgent.pm \
-#&& cpanm Bio::AlignIO
-#
-############################
-# Install external progam  #
-############################
-# Create a directory for all git directories
-WORKDIR git_repositories
-
-# Install Blast
-#RUN apt-get install -y ncbi-blast+ \
-#
-# Install HMMER
-#&& apt-get install -y hmmer
-#
-# Install Exonerate
-#RUN git clone https://github.com/nathanweeks/exonerate.git
-#WORKDIR exonerate
-#RUN git checkout v2.4.0; ./configure; make; make check;autoreconf -f -i; make install
-#WORKDIR git_repositories
-
-# Install Muscle
-RUN wget -L http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux32.tar.gz; tar xzvf muscle3.8.31_i86linux32.tar.gz;mv muscle3.8.31_i86linux32 /usr/local/bin/muscle; rm -rf /muscle3.8.31_i86linux32.tar.gz \
-#
-# Install EMBOSS
-&& apt-get install -y emboss \
-#
-# Install Erpin
-&& wget -L http://rna.igmors.u-psud.fr/download/Erpin/erpin5.5.4.serv.tar.gz; tar xzvf erpin5.5.4.serv.tar.gz; cp erpin5.5.4.serv/bin/erpin /usr/local/bin/ \
-#
-# Install tbl2asn
-#&& wget ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/tbl2asn/linux.tbl2asn.gz; gunzip linux.tbl2asn.gz; chmod 755 linux.tbl2asn; cp linux.tbl2asn /usr/local/bin/tbl2asn \
-# WILL NEED TO HANDLE tbl2asn DIFFERENTLY TOO BECAUSE CANNOT GET VIA BINDER, SUGESTED AFTER ADDING TO REPO:
-# COPY linux.tbl2asn.gz # NEVERMIND COPY !! HANDLED UP TOP!!!
-# RUN gunzip linux.tbl2asn.gz; chmod 755 linux.tbl2asn; cp linux.tbl2asn /usr/local/bin/tbl2asn \
-#
-############################
-# Install internal progam #
-############################
-#
-# Install PirObject
-&& git clone https://github.com/prioux/PirObject.git; cp PirObject/lib/PirObject.pm /etc/perl/ \
-#
-# Install all PirModels
-&& git clone https://github.com/BFL-lab/PirModels.git; mv PirModels /root/ \
-#
-# Install flip
-&& git clone https://github.com/BFL-lab/flip.git
-WORKDIR flip/src/
-RUN gcc -o /usr/local/bin/flip flip.c
-#
-WORKDIR git_repositories
-# Install umac
-RUN git clone https://github.com/BFL-lab/umac.git; cp umac/umac /usr/local/bin/ \
-#
-# Install HMMsearchWC
-&& git clone https://github.com/BFL-lab/HMMsearchWC.git; cp HMMsearchWC/HMMsearchCombiner /usr/local/bin/; cp HMMsearchWC/HMMsearchWrapper /usr/local/bin/ \
-#
-# Install RNAfinder
-&& git clone https://github.com/BFL-lab/RNAfinder.git; cp RNAfinder/RNAfinder /usr/local/bin/ \
-#&& cp RNAfinder/DOT_RNAfinder.cfg ~/.RNAfinder.cfg \
-#
-# Install mf2sqn
-&& git clone https://github.com/BFL-lab/mf2sqn.git; cp mf2sqn/mf2sqn /usr/local/bin/; cp mf2sqn/qualifs.pl /usr/share/perl5/ \
-#
-# Install grab-fasta
-&& git clone https://github.com/BFL-lab/grab-fasta.git; cp grab-fasta/grab-fasta /usr/local/bin/;cp grab-fasta/grab-seq /usr/local/bin/ \
-#
-# Install MFannot
-&& git clone https://github.com/BFL-lab/mfannot.git; cp mfannot/mfannot /usr/local/bin/ \
-#&& cp -r mfannot/examples / \
-#&& cp -r mfannot/examples ../. \
-#
-################
-# Install data #
-################
-# Install data
-&& git clone https://github.com/BFL-lab/MFannot_data.git
-#
-#Install BLAST matrix
-WORKDIR BLASTMAT
-WORKDIR git_repositories
-# RUN mkdir BLASTMAT; cd BLASTMAT; wget  ftp://ftp.ncbi.nlm.nih.gov/blast/matrices/* ; cd ..
-# THis will need to be done with COPY I think once, I put matrices files in repo. SUGESTED AFTER ADDING TO REPO:
-# COPY matrices.gz BLASTMAT  # NEVERMIND COPY !! HANDLED UP TOP!!!
-#
-#
-WORKDIR git_repositories
-#
-#Copy RNAfinder config file
-#RUN cp ~/.RNAfinder.cfg / \
-##RUN RNAfinder/DOT_RNAfinder.cfg ../. \
-#
-#mv PirModels 
-##&& mv /root/PirModels / 
-#
-####################
-# Set ENV variable #
-####################
-#
-ENV RNAFINDER_CFG_PATH /
-ENV MF2SQN_LIB /mf2sqn/lib/
-ENV MFANNOT_LIB_PATH /MFannot_data/protein_collections/
-ENV MFANNOT_EXT_CFG_PATH /MFannot_data/config
-ENV MFANNOT_MOD_PATH /MFannot_data/models/
-ENV BLASTMAT /BLASTMAT/
-ENV EGC /MFannot_data/EGC/
-ENV ERPIN_MOD_PATH /MFannot_data/models/Erpin_models/
-#ENV PIR_DATAMODEL_PATH /PirModels
-#
-#
-# Putting this at end because usally block with it above is at end but I wanted to copy repo earlier so could deal with matrices files
-# Copy repo into ${HOME}, make user own $HOME
-USER root
-COPY . ${HOME}
-RUN chown -R ${NB_USER} ${HOME}
-USER ${NB_USER}
