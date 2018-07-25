@@ -7,14 +7,14 @@ FROM rocker/binder:3.4.2
 # Trying to merge the Dockerfiles from: 
 # https://github.com/binder-examples/dockerfile-rstudio/blob/master/Dockerfile
 # https://github.com/rocker-org/binder/blob/master/3.4.2/Dockerfile
-# into something that works to install the perl modules Circos needs
+# into something that works to install all the items that MFannot needs
 
 # Copy repo into ${HOME}, make user own $HOME
 USER root
 COPY . ${HOME}
 RUN chown -R ${NB_USER} ${HOME}
 USER ${NB_USER}
-# copied the repo now because I'll need to eventually referecne BLAST matrices files 
+# copied the repo now because I'll need to eventually reference BLAST matrices files 
 # during install
 # Return to root for installation until end of it.
 
@@ -150,4 +150,8 @@ ENV ERPIN_MOD_PATH /MFannot_data/models/Erpin_models/
 #
 #
 # Putting this at end because usally block with it above is at end but I wanted to copy repo earlier so could deal with matrices files
+# Copy repo into ${HOME}, make user own $HOME
+USER root
+COPY . ${HOME}
+RUN chown -R ${NB_USER} ${HOME}
 USER ${NB_USER}
