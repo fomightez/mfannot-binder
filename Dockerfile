@@ -9,11 +9,7 @@ FROM rocker/binder:3.4.2
 # https://github.com/rocker-org/binder/blob/master/3.4.2/Dockerfile
 # into something that works to install all the items that MFannot needs
 
-# Copy repo into ${HOME}, make user own $HOME
-USER root
-COPY . ${HOME}
-RUN chown -R ${NB_USER} ${HOME}
-USER ${NB_USER}
+
 # copied the repo now because I'll need to eventually reference BLAST matrices files 
 # during install
 # Return to root for installation until end of it.
@@ -150,4 +146,8 @@ RUN git clone https://github.com/BFL-lab/umac.git; cp umac/umac /usr/local/bin/ 
 #
 #
 # Putting this at end because usally block with it above is at end but I wanted to copy repo earlier so could deal with matrices files
+# Copy repo into ${HOME}, make user own $HOME
+USER root
+COPY . ${HOME}
+RUN chown -R ${NB_USER} ${HOME}
 USER ${NB_USER}
