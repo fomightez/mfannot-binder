@@ -56,13 +56,13 @@ WORKDIR git_repositories
 #WORKDIR git_repositories
 
 # Install Muscle
-RUN wget -L http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux32.tar.gz; tar xzvf muscle3.8.31_i86linux32.tar.gz;mv muscle3.8.31_i86linux32 /usr/local/bin/muscle; rm -rf /muscle3.8.31_i86linux32.tar.gz \
+#RUN wget -L http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux32.tar.gz; tar xzvf muscle3.8.31_i86linux32.tar.gz;mv muscle3.8.31_i86linux32 /usr/local/bin/muscle; rm -rf /muscle3.8.31_i86linux32.tar.gz \
 #
 # Install EMBOSS
-&& apt-get install -y emboss \
+#&& apt-get install -y emboss \
 #
 # Install Erpin
-&& wget -L http://rna.igmors.u-psud.fr/download/Erpin/erpin5.5.4.serv.tar.gz; tar xzvf erpin5.5.4.serv.tar.gz; cp erpin5.5.4.serv/bin/erpin /usr/local/bin/ \
+#&& wget -L http://rna.igmors.u-psud.fr/download/Erpin/erpin5.5.4.serv.tar.gz; tar xzvf erpin5.5.4.serv.tar.gz; cp erpin5.5.4.serv/bin/erpin /usr/local/bin/ \
 #
 # Install tbl2asn
 #&& wget ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/tbl2asn/linux.tbl2asn.gz; gunzip linux.tbl2asn.gz; chmod 755 linux.tbl2asn; cp linux.tbl2asn /usr/local/bin/tbl2asn \
@@ -75,17 +75,17 @@ RUN wget -L http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux32
 ############################
 #
 # Install PirObject
-&& git clone https://github.com/prioux/PirObject.git; cp PirObject/lib/PirObject.pm /etc/perl/ \
+#&& git clone https://github.com/prioux/PirObject.git; cp PirObject/lib/PirObject.pm /etc/perl/ \
 #
 # Install all PirModels
-&& git clone https://github.com/BFL-lab/PirModels.git; mv PirModels /root/ \
+#&& git clone https://github.com/BFL-lab/PirModels.git; mv PirModels /root/ \
 #
 # Install flip
-&& git clone https://github.com/BFL-lab/flip.git
-WORKDIR flip/src/
-RUN gcc -o /usr/local/bin/flip flip.c
+#&& git clone https://github.com/BFL-lab/flip.git
+#WORKDIR flip/src/
+#RUN gcc -o /usr/local/bin/flip flip.c
 #
-WORKDIR ../../git_repositories
+#WORKDIR ../../git_repositories
 # Install umac
 RUN git clone https://github.com/BFL-lab/umac.git; cp umac/umac /usr/local/bin/ \
 #
