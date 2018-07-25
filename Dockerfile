@@ -97,8 +97,8 @@ RUN git clone https://github.com/BFL-lab/umac.git; cp umac/umac /usr/local/bin/ 
 && git clone https://github.com/BFL-lab/HMMsearchWC.git; cp HMMsearchWC/HMMsearchCombiner /usr/local/bin/; cp HMMsearchWC/HMMsearchWrapper /usr/local/bin/ \
 #
 # Install RNAfinder
-&& git clone https://github.com/BFL-lab/RNAfinder.git; cp RNAfinder/RNAfinder /usr/local/bin/; \
-# cp RNAfinder/DOT_RNAfinder.cfg ~/.RNAfinder.cfg \
+&& git clone https://github.com/BFL-lab/RNAfinder.git; cp RNAfinder/RNAfinder /usr/local/bin/ \
+#&& cp RNAfinder/DOT_RNAfinder.cfg ~/.RNAfinder.cfg \
 #
 # Install mf2sqn
 && git clone https://github.com/BFL-lab/mf2sqn.git; cp mf2sqn/mf2sqn /usr/local/bin/; cp mf2sqn/qualifs.pl /usr/share/perl5/ \
