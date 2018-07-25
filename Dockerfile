@@ -38,8 +38,8 @@ RUN apt-get update && apt-get install -y  git \
 ############################
 # Install perl dependency  #
 ############################
-&& cpanm LWP::UserAgent.pm \
-&& cpanm Bio::AlignIO
+#&& cpanm LWP::UserAgent.pm \
+#&& cpanm Bio::AlignIO
 #
 ############################
 # Install external progam  #
@@ -48,16 +48,16 @@ RUN apt-get update && apt-get install -y  git \
 WORKDIR git_repositories
 
 # Install Blast
-RUN apt-get install -y ncbi-blast+ \
+#RUN apt-get install -y ncbi-blast+ \
 #
 # Install HMMER
-&& apt-get install -y hmmer
+#&& apt-get install -y hmmer
 #
 # Install Exonerate
-RUN git clone https://github.com/nathanweeks/exonerate.git
-WORKDIR exonerate
-RUN git checkout v2.4.0; ./configure; make; make check;autoreconf -f -i; make install
-WORKDIR git_repositories
+#RUN git clone https://github.com/nathanweeks/exonerate.git
+#WORKDIR exonerate
+#RUN git checkout v2.4.0; ./configure; make; make check;autoreconf -f -i; make install
+#WORKDIR git_repositories
 
 # Install Muscle
 RUN wget -L http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux32.tar.gz; tar xzvf muscle3.8.31_i86linux32.tar.gz;mv muscle3.8.31_i86linux32 /usr/local/bin/muscle; rm -rf /muscle3.8.31_i86linux32.tar.gz \
@@ -109,7 +109,7 @@ RUN git clone https://github.com/BFL-lab/umac.git; cp umac/umac /usr/local/bin/ 
 # Install MFannot
 && git clone https://github.com/BFL-lab/mfannot.git; cp mfannot/mfannot /usr/local/bin/; \
 # cp -r mfannot/examples / \
-cp -r mfannot/examples ../. \
+#cp -r mfannot/examples ../. \
 #
 ################
 # Install data #
